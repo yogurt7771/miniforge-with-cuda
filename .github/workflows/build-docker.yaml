@@ -1,0 +1,28 @@
+name: Build Docker
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  packages: write
+  contents: write
+
+env:
+  IMAGE_NAME: miniforge-with-cuda
+  CUDA_TAG: 11.8.0-base-ubuntu22.04
+  PYTHON_VERSION: 3.11
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Build
+      run: |
+        name=ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+        tag=py${{ env.PYTHON_VERSION }}-${{ env.CUDA_TAG }}
+        docker build --build-arg CUDA_TAG=${{ env.CUDA_TAG }} --build-arg PYTHON_VERSION=${{ env.PYTHON_VERSION }} -t $name:$tag .
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        docker push $name:$tag
