@@ -1,10 +1,10 @@
 ARG CUDA_TAG=11.8.0
 ARG PYTHON_VER=3.11
 ARG TZ=Asia/Shanghai
-ARG DEBIAN_FRONTEND=noninteractive
-
 FROM nvidia/cuda:${CUDA_TAG}
 
+
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH=/opt/conda/bin:$PATH
 ENV PYTHON_VERSION=${PYTHON_VER}
 ENV TZ=${TZ}
