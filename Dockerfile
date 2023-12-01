@@ -16,6 +16,7 @@ RUN apt-get update \
     curl \
     wget \
     psmisc \
+    coreutils \
     iproute2 \
     ca-certificates \
     libjpeg-dev \
